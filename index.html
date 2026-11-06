@@ -50,12 +50,12 @@ button{font:inherit}svg{display:block;max-width:100%}p{margin:0}h1,h2,h3{line-he
       <nav class="desktop-nav" aria-label="Navigasi utama">
         <a href="#fitur">Fitur</a><a href="#tampilan">Tampilan</a><a href="#panduan">Instalasi</a><a href="#faq">FAQ</a>
       </nav>
-      <a class="header-download" href="https://github.com/amanhnb88/LHS/releases/latest" data-latest-release target="_blank" rel="noopener noreferrer">Unduh APK <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 7 7 7-7M12 3v16"/></svg></a>
+      <a class="header-download" href="https://github.com/amanhnb88/LHS/releases/download/v1.2.8/LHS-Papua-1.2.8.apk" data-download-apk rel="noopener noreferrer">Unduh APK <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 7 7 7-7M12 3v16"/></svg></a>
       <button id="menuToggle" class="menu-toggle" type="button" aria-label="Buka menu" aria-controls="mobileMenu" aria-expanded="false"><span></span><span></span><span></span></button>
     </div>
     <nav id="mobileMenu" class="mobile-nav" aria-label="Menu seluler" hidden>
       <a href="#fitur">Fitur</a><a href="#tampilan">Tampilan</a><a href="#panduan">Instalasi</a><a href="#faq">FAQ</a>
-      <a href="https://github.com/amanhnb88/LHS/releases/latest" data-latest-release target="_blank" rel="noopener noreferrer">Unduh versi terbaru</a>
+      <a href="https://github.com/amanhnb88/LHS/releases/download/v1.2.8/LHS-Papua-1.2.8.apk" data-download-apk rel="noopener noreferrer">Unduh versi terbaru</a>
     </nav>
   </header>
   <main id="konten">
@@ -159,25 +159,89 @@ button{font:inherit}svg{display:block;max-width:100%}p{margin:0}h1,h2,h3{line-he
   const year = document.getElementById('year');
   if (year) year.textContent = String(new Date().getFullYear());
 
-  // Fallback buttons always work even if the GitHub API is unavailable or rate-limited.
-  const api = 'https://api.github.com/repos/amanhnb88/LHS/releases/latest';
-  const fallbackTag = 'v1.2.8';
-  fetch(api, { headers: { Accept: 'application/vnd.github+json' } })
-    .then(response => { if (!response.ok) throw new Error('GitHub API unavailable'); return response.json(); })
-    .then(data => {
-      if (typeof data.tag_name !== 'string' || !/^v?\d+\.\d+\.\d+$/.test(data.tag_name)) return;
-      const tag = data.tag_name;
-      const releaseUrl = typeof data.html_url === 'string' && data.html_url.startsWith('https://github.com/amanhnb88/LHS/releases/tag/')
-        ? data.html_url : 'https://github.com/amanhnb88/LHS/releases/latest';
-      const asset = Array.isArray(data.assets) ? data.assets.find(x => typeof x.name === 'string' && /^lhs[\w.\- ]*\.apk$/i.test(x.name) && !/debug|unsigned|test/i.test(x.name) && typeof x.browser_download_url === 'string' && x.browser_download_url.startsWith('https://github.com/amanhnb88/LHS/releases/download/')) : null;
-      document.querySelectorAll('[data-version-label]').forEach(el => { el.textContent = tag.startsWith('v') ? tag : 'v'+tag; });
-      document.querySelectorAll('[data-latest-release]').forEach(el => { el.href = releaseUrl; });
-      if (asset) document.querySelectorAll('[data-download-apk]').forEach(el => { el.href = asset.browser_download_url; });
-    })
-    .catch(() => {
-      // On failure keep the verified v1.2.8 APK link and the latest release page.
-      document.querySelectorAll('[data-version-label]').forEach(el => { el.textContent ||= fallbackTag; });
+  // Semua tombol unduh menggunakan file APK, bukan halaman Release.
+  // Saat situs dibuka dan ketika tombol ditekan, cek GitHub Release stabil terbaru.
+  const releasesApi = 'https://api.github.com/repos/amanhnb88/LHS/releases/latest';
+  const backupApk = 'https://github.com/amanhnb88/LHS/releases/download/v1.2.8/LHS-Papua-1.2.8.apk';
+  const backupTag = 'v1.2.8';
+  let selected = { tag: backupTag, apkUrl: backupApk };
+  let downloading = false;
+  const downloadButtons = Array.from(document.querySelectorAll('[data-download-apk]'));
+  const validApkUrl = (url) => {
+    try {
+      const u = new URL(url);
+      return u.protocol === 'https:' && u.hostname === 'github.com' &&
+        /^\/amanhnb88\/LHS\/releases\/download\/[^/]+\/[^/]+\.apk$/i.test(u.pathname);
+    } catch (_) { return false; }
+  };
+  function applyRelease(release) {
+    selected = release;
+    document.querySelectorAll('[data-version-label]').forEach(el => {
+      el.textContent = release.tag.startsWith('v') ? release.tag : 'v' + release.tag;
     });
+    downloadButtons.forEach(el => { el.href = release.apkUrl; });
+    if (release.releaseUrl) {
+      document.querySelectorAll('[data-latest-release]').forEach(el => {
+        el.href = release.releaseUrl;
+      });
+    }
+  }
+  async function loadLatestRelease() {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 6000);
+    try {
+      const response = await fetch(releasesApi + '?ts=' + Date.now(), {
+        cache: 'no-store',
+        headers: { Accept: 'application/vnd.github+json' },
+        signal: controller.signal
+      });
+      if (!response.ok) throw new Error('Tidak bisa mengambil GitHub Release terbaru');
+      const data = await response.json();
+      if (typeof data.tag_name !== 'string' ||
+          !/^v?\d+\.\d+\.\d+(?:[-.][A-Za-z0-9.-]+)?$/.test(data.tag_name) ||
+          !Array.isArray(data.assets)) throw new Error('Data Release tidak valid');
+      const apks = data.assets.filter(asset =>
+        typeof asset.name === 'string' &&
+        /\.apk$/i.test(asset.name) &&
+        !/(?:debug|unsigned|test)[-_. ]/i.test(asset.name) &&
+        typeof asset.browser_download_url === 'string' &&
+        validApkUrl(asset.browser_download_url)
+      );
+      if (!apks.length) throw new Error('APK release belum tersedia');
+      const asset = apks.find(x => /LHS[-_. ]?Papua/i.test(x.name)) || apks[0];
+      const releaseUrl = typeof data.html_url === 'string' &&
+        data.html_url.startsWith('https://github.com/amanhnb88/LHS/releases/tag/')
+          ? data.html_url : null;
+      const release = { tag: data.tag_name, apkUrl: asset.browser_download_url, releaseUrl };
+      applyRelease(release);
+      return release;
+    } finally {
+      clearTimeout(timeout);
+    }
+  }
+
+  // Memperbarui nomor versi segera setelah halaman dibuka.
+  loadLatestRelease().catch(() => {
+    // API gagal/rate-limit: tombol tetap menuju APK cadangan terverifikasi.
+  });
+
+  downloadButtons.forEach(button => button.addEventListener('click', async (event) => {
+    event.preventDefault();
+    if (downloading) return;
+    downloading = true;
+    downloadButtons.forEach(el => el.setAttribute('aria-busy', 'true'));
+    try {
+      // Cek ulang saat ditekan agar rilis baru tidak menunggu cache halaman.
+      const release = await loadLatestRelease().catch(() => selected);
+      // URL ini langsung ke aset .apk. GitHub dapat mengalihkan ke CDN unduhan,
+      // tetapi tidak akan membuka halaman ringkasan Release.
+      window.location.assign(release.apkUrl);
+    } finally {
+      downloading = false;
+      downloadButtons.forEach(el => el.removeAttribute('aria-busy'));
+    }
+  }));
+
 })();
 
 </script>
