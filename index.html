@@ -176,7 +176,7 @@ button{font:inherit}svg{display:block;max-width:100%}p{margin:0}h1,h2,h3{line-he
       <details><summary>Di mana saya mendapatkan versi terbaru?</summary><p>Gunakan tombol Download di halaman ini atau kunjungi <a href="https://github.com/amanhnb88/LHS/releases/latest" target="_blank" rel="noopener noreferrer">halaman rilis resmi GitHub</a>.</p></details>
     </div></div></section>
   </main>
-  <footer class="site-footer"><div class="container footer-top"><div><a class="brand" href="#top"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M9 5h10l5 5v17H9V5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M19 5v6h5" stroke="currentColor" stroke-width="2"/><path d="M13 22v-5m4 5v-8m4 8v-4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span><span>LHS <strong>Papua</strong></span></a><p>Membantu pekerjaan sales Papua lebih praktis — dari pencatatan hingga laporan siap dibagikan.</p></div><div class="footer-links"><a href="#fitur">Fitur</a><a href="#tampilan">Tampilan</a><a href="#panduan">Instalasi</a><a href="#dukung">Traktir Kopi</a><a href="https://github.com/amanhnb88/LHS" target="_blank" rel="noopener noreferrer">GitHub</a><a href="https://github.com/amanhnb88/LHS/releases/latest" target="_blank" rel="noopener noreferrer">Release</a></div></div><div class="container footer-bottom"><span>© <span id="year">2026</span> LHS Papua.</span><span>Website statis · Tanpa pelacak · Dibangun untuk GitHub Pages</span></div></footer>
+  <footer class="site-footer"><div class="container footer-top"><div><a class="brand" href="./" aria-label="LHS Papua, segarkan halaman utama"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M9 5h10l5 5v17H9V5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M19 5v6h5" stroke="currentColor" stroke-width="2"/><path d="M13 22v-5m4 5v-8m4 8v-4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span><span>LHS <strong>Papua</strong></span></a><p>Membantu pekerjaan sales Papua lebih praktis — dari pencatatan hingga laporan siap dibagikan.</p></div><div class="footer-links"><a href="#fitur">Fitur</a><a href="#tampilan">Tampilan</a><a href="#panduan">Instalasi</a><a href="#dukung">Traktir Kopi</a><a href="https://github.com/amanhnb88/LHS" target="_blank" rel="noopener noreferrer">GitHub</a><a href="https://github.com/amanhnb88/LHS/releases/latest" target="_blank" rel="noopener noreferrer">Release</a></div></div><div class="container footer-bottom"><span>© <span id="year">2026</span> LHS Papua.</span><span>Website statis · Tanpa pelacak · Dibangun untuk GitHub Pages</span></div></footer>
   <dialog id="imageLightbox" class="image-lightbox" aria-label="Perbesar gambar aplikasi">
     <button type="button" class="image-lightbox-close" id="imageLightboxClose">Tutup ×</button>
     <img id="imageLightboxContent" alt="">
@@ -260,12 +260,12 @@ button{font:inherit}svg{display:block;max-width:100%}p{margin:0}h1,h2,h3{line-he
 
   // Logo / nama LHS Papua selalu membuka ulang Beranda dari posisi atas.
   // Gunakan direktori GitHub Pages saat ini, bukan root domain github.io.
-  document.querySelector('.brand')?.addEventListener('click', (event) => {
+  document.querySelectorAll('.brand').forEach((brand) => brand.addEventListener('click', (event) => {
     event.preventDefault();
     const home = new URL('./', document.baseURI);
     window.history.replaceState(null, '', home.pathname);
     window.location.reload();
-  });
+  }));
 
   // Semua tombol unduh menggunakan file APK, bukan halaman Release.
   // Saat situs dibuka dan ketika tombol ditekan, cek GitHub Release stabil terbaru.
