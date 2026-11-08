@@ -37,26 +37,14 @@ button{font:inherit}svg{display:block;max-width:100%}p{margin:0}h1,h2,h3{line-he
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
 
 
-/* Image preview and QRIS support only; existing layout unchanged. */
+/* Screenshot image preview only; existing layout unchanged. */
 .image-lightbox{position:fixed;inset:0;margin:auto;box-sizing:border-box;width:min(94vw,1100px);max-height:95dvh;overflow:auto;padding:44px 16px 18px;border:1px solid rgba(146,228,194,.25);border-radius:20px;background:#0b1813;color:#eaf9f0;box-shadow:0 25px 85px rgba(0,0,0,.7)}
 .image-lightbox::backdrop{background:rgba(1,7,5,.88)}
 .image-lightbox img{display:block;width:auto;max-width:100%;max-height:75dvh;height:auto;object-fit:contain;margin:auto;border-radius:10px}
 .image-lightbox p{margin:14px 0 0;text-align:center;font-size:.88rem;color:#b8d3c3}
 .image-lightbox-close{position:absolute;right:15px;top:8px;border:0;border-radius:9px;background:#234336;color:#e7fff3;font:inherit;padding:7px 13px;cursor:pointer;z-index:1}
 .image-lightbox-close:focus-visible,[data-image-preview]:focus-visible{outline:3px solid var(--mint);outline-offset:4px}
-.support-section{background:#10231b}
-.support-layout{display:grid;grid-template-columns:1fr minmax(250px,370px);gap:60px;align-items:center}
-.support-copy h2{font-size:clamp(2rem,4vw,3rem);line-height:1.14;margin:10px 0 22px}
-.support-copy>p:not(.section-tag){color:#a8c5b6;line-height:1.85;margin:0 0 16px}
-.support-copy strong{color:#e8fff3}
-.support-card{padding:25px;background:linear-gradient(145deg,#193b2c,#11261d);border:1px solid rgba(146,228,194,.25);border-radius:27px;text-align:center}
-.support-card img{display:block;background:#fff;border-radius:15px;width:min(100%,280px);height:auto;margin:auto;aspect-ratio:1}
-.support-merchant{font-size:.86rem;color:#b5d2c2;line-height:1.55;margin:14px 0 16px}
-.support-merchant strong{color:#eefbf4}
-.support-card .button{display:flex;width:100%;align-items:center;justify-content:center}
-.support-note{display:block;margin-top:15px;color:#b3d0bd;font-size:.78rem;line-height:1.65}
-.support-status{color:var(--mint);font-size:.82rem;min-height:1em}
-@media(max-width:760px){.support-layout{grid-template-columns:1fr;gap:28px}.support-card{max-width:390px;width:100%;margin:0 auto}.support-copy h2{font-size:2rem}}
+
 </style>
 
 </head>
@@ -69,13 +57,13 @@ button{font:inherit}svg{display:block;max-width:100%}p{margin:0}h1,h2,h3{line-he
         <span>LHS <strong>Papua</strong></span>
       </a>
       <nav class="desktop-nav" aria-label="Navigasi utama">
-        <a href="#fitur">Fitur</a><a href="#tampilan">Tampilan</a><a href="#panduan">Instalasi</a><a href="#faq">FAQ</a><a href="#dukung">Traktir Kopi</a>
+        <a href="#fitur">Fitur</a><a href="#tampilan">Tampilan</a><a href="#panduan">Instalasi</a><a href="#faq">FAQ</a>
       </nav>
       <a class="header-download" href="https://github.com/amanhnb88/LHS/releases/download/v1.2.8/LHS-Papua-1.2.8.apk" data-download-apk rel="noopener noreferrer">Unduh APK <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 7 7 7-7M12 3v16"/></svg></a>
       <button id="menuToggle" class="menu-toggle" type="button" aria-label="Buka menu" aria-controls="mobileMenu" aria-expanded="false"><span></span><span></span><span></span></button>
     </div>
     <nav id="mobileMenu" class="mobile-nav" aria-label="Menu seluler" hidden>
-      <a href="#fitur">Fitur</a><a href="#tampilan">Tampilan</a><a href="#panduan">Instalasi</a><a href="#faq">FAQ</a><a href="#dukung">Traktir Kopi</a>
+      <a href="#fitur">Fitur</a><a href="#tampilan">Tampilan</a><a href="#panduan">Instalasi</a><a href="#faq">FAQ</a>
       <a href="https://github.com/amanhnb88/LHS/releases/download/v1.2.8/LHS-Papua-1.2.8.apk" data-download-apk rel="noopener noreferrer">Unduh versi terbaru</a>
     </nav>
   </header>
@@ -152,25 +140,6 @@ button{font:inherit}svg{display:block;max-width:100%}p{margin:0}h1,h2,h3{line-he
     </section>
 
     
-    <section class="section support-section" id="dukung" aria-labelledby="dukung-title">
-      <div class="container support-layout">
-        <div class="support-copy">
-          <p class="section-tag">TRAKTIR KOPI</p>
-          <h2 id="dukung-title">Suka LHS Papua? <span class="accent">Traktir kopi, boleh!</span></h2>
-          <p>LHS Papua bisa dipakai gratis. Kalau aplikasinya membantu pekerjaanmu, kamu boleh traktir kopi pengembangnya lewat QRIS ini.</p>
-          <p><strong>Sepenuhnya pilihanmu.</strong> Semua fitur tetap bisa dinikmati tanpa traktiran apa pun.</p>
-          
-        </div>
-        <div class="support-card">
-          <img src="assets/qris-dukung.svg" width="610" height="610" loading="lazy" alt="QRIS traktir kopi untuk AdiXtream, Digital &amp; Kreatif">
-          <p class="support-merchant"><strong>AdiXtream, Digital &amp; Kreatif</strong></p>
-          <button class="button button-primary" id="saveDonationQr" type="button">Simpan QRIS sebagai PNG</button>
-          <small class="support-note">Di satu HP? Simpan gambarnya lalu gunakan fitur scan dari galeri di aplikasi pembayaran jika tersedia.</small>
-          <p id="supportStatus" class="support-status" role="status" aria-live="polite"></p>
-        </div>
-      </div>
-    </section>
-
     <section class="section faq-section" id="faq" aria-labelledby="faq-title"><div class="container faq-layout"><div><p class="section-tag">TANYA JAWAB</p><h2 id="faq-title">Yang sering <span class="accent">ditanyakan.</span></h2><p class="faq-lead">Informasi singkat sebelum menggunakan LHS Papua.</p></div><div class="faq-items">
       <details><summary>Apakah LHS Papua memerlukan internet?</summary><p>Untuk mengunduh APK diperlukan internet. Setelah terpasang, proses pencatatan laporan menggunakan penyimpanan lokal dan tidak memerlukan koneksi internet.</p></details>
       <details><summary>Apakah aplikasi memerlukan akun atau login?</summary><p>Tidak. LHS Papua dirancang untuk pencatatan lokal tanpa akun pengguna atau login server.</p></details>
@@ -179,7 +148,7 @@ button{font:inherit}svg{display:block;max-width:100%}p{margin:0}h1,h2,h3{line-he
       <details><summary>Di mana saya mendapatkan versi terbaru?</summary><p>Gunakan tombol Download di halaman ini atau kunjungi <a href="https://github.com/amanhnb88/LHS/releases/latest" target="_blank" rel="noopener noreferrer">halaman rilis resmi GitHub</a>.</p></details>
     </div></div></section>
   </main>
-  <footer class="site-footer"><div class="container footer-top"><div><a class="brand" href="./" aria-label="LHS Papua, segarkan halaman utama"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M9 5h10l5 5v17H9V5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M19 5v6h5" stroke="currentColor" stroke-width="2"/><path d="M13 22v-5m4 5v-8m4 8v-4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span><span>LHS <strong>Papua</strong></span></a><p>Membantu pekerjaan sales Papua lebih praktis — dari pencatatan hingga laporan siap dibagikan.</p></div><div class="footer-links"><a href="#fitur">Fitur</a><a href="#tampilan">Tampilan</a><a href="#panduan">Instalasi</a><a href="#dukung">Traktir Kopi</a><a href="https://github.com/amanhnb88/LHS" target="_blank" rel="noopener noreferrer">GitHub</a><a href="https://github.com/amanhnb88/LHS/releases/latest" target="_blank" rel="noopener noreferrer">Release</a></div></div><div class="container footer-bottom"><span>© <span id="year">2026</span> LHS Papua.</span><span>Website statis · Tanpa pelacak · Dibangun untuk GitHub Pages</span></div></footer>
+  <footer class="site-footer"><div class="container footer-top"><div><a class="brand" href="./" aria-label="LHS Papua, segarkan halaman utama"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M9 5h10l5 5v17H9V5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M19 5v6h5" stroke="currentColor" stroke-width="2"/><path d="M13 22v-5m4 5v-8m4 8v-4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span><span>LHS <strong>Papua</strong></span></a><p>Membantu pekerjaan sales Papua lebih praktis — dari pencatatan hingga laporan siap dibagikan.</p></div><div class="footer-links"><a href="#fitur">Fitur</a><a href="#tampilan">Tampilan</a><a href="#panduan">Instalasi</a><a href="https://github.com/amanhnb88/LHS" target="_blank" rel="noopener noreferrer">GitHub</a><a href="https://github.com/amanhnb88/LHS/releases/latest" target="_blank" rel="noopener noreferrer">Release</a></div></div><div class="container footer-bottom"><span>© <span id="year">2026</span> LHS Papua.</span><span>Website statis · Tanpa pelacak · Dibangun untuk GitHub Pages</span></div></footer>
   <dialog id="imageLightbox" class="image-lightbox" aria-label="Perbesar gambar aplikasi">
     <button type="button" class="image-lightbox-close" id="imageLightboxClose">Tutup ×</button>
     <img id="imageLightboxContent" alt="">
@@ -228,38 +197,6 @@ button{font:inherit}svg{display:block;max-width:100%}p{margin:0}h1,h2,h3{line-he
   };
   document.getElementById('imageLightboxClose')?.addEventListener('click', closeViewer);
   viewer?.addEventListener('click', event => { if (event.target === viewer) closeViewer(); });
-
-  // Konversi QRIS yang sama menjadi PNG lokal, tanpa server tambahan.
-  const qrButton = document.getElementById('saveDonationQr');
-  const qrStatus = document.getElementById('supportStatus');
-  qrButton?.addEventListener('click', async () => {
-    qrButton.disabled = true;
-    if (qrStatus) qrStatus.textContent = 'Menyiapkan QRIS PNG…';
-    try {
-      const qr = new Image();
-      await new Promise((resolve, reject) => {
-        qr.onload = resolve; qr.onerror = reject;
-        qr.src = new URL('assets/qris-dukung.svg', document.baseURI).href;
-      });
-      const canvas = document.createElement('canvas');
-      canvas.width = 1200; canvas.height = 1200;
-      const ctx = canvas.getContext('2d');
-      if (!ctx) throw new Error('Canvas tidak tersedia');
-      ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, 1200, 1200);
-      ctx.imageSmoothingEnabled = false;
-      ctx.drawImage(qr, 0, 0, 1200, 1200);
-      const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
-      if (!blob) throw new Error('Gagal menyimpan PNG');
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url; a.download = 'QRIS-Dukung-LHS-Papua.png';
-      document.body.appendChild(a); a.click(); a.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 15000);
-      if (qrStatus) qrStatus.textContent = 'QRIS berhasil disiapkan untuk disimpan.';
-    } catch (_) {
-      if (qrStatus) qrStatus.textContent = 'Gagal membuat PNG. Coba tekan lama gambar QRIS untuk menyimpannya.';
-    } finally { qrButton.disabled = false; }
-  });
 
   // Logo / nama LHS Papua selalu membuka ulang Beranda dari posisi atas.
   // Gunakan direktori GitHub Pages saat ini, bukan root domain github.io.
